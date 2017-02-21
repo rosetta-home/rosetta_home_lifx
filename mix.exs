@@ -15,7 +15,7 @@ defmodule RosettaHomeLifx.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger, :lifx]]
+    [extra_applications: [:logger, :lifx, :network_manager, :device_manager]]
   end
 
   # Dependencies can be Hex packages:
