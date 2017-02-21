@@ -156,6 +156,8 @@ defmodule DeviceManager.Discovery.Light.Lifx do
   use DeviceManager.Discovery
   require Logger
   alias DeviceManager.Device.Light
+  alias NetworkManager.State, as: NM
+  alias NetworkManager.Interface, as: NMInterface
 
   defmodule EventHandler do
     use GenEvent
@@ -173,9 +175,20 @@ defmodule DeviceManager.Discovery.Light.Lifx do
   end
 
   def register_callbacks do
-    Logger.info "Starting Lifx Listener"
+    NetworkManager.register
     Lifx.Client.add_handler(EventHandler)
     {:ok, []}
+  end
+
+  def handle_info(%NM{interface: %NMInterface{settings: %{ipv4_address: address}, status: %{operstate: :up}}}, state) do
+    Logger.info "Device Manager IP: #{inspect address}"
+    Logger.info "Starting Lifx Listener"
+    Lifx.Client.start
+    {:noreply, state}
+  end
+
+  def handle_info(%NM{}, state) do
+    {:noreply, state}
   end
 
   def handle_info(%Lifx.Device.State{} = device, state) do
