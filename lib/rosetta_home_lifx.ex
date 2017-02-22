@@ -1,8 +1,8 @@
-defmodule DeviceManager.Device.Light.Lifx do
+defmodule Cicada.DeviceManager.Device.Light.Lifx do
   use GenServer
   require Logger
-
-  @behaviour DeviceManager.Behaviour.Light
+  alias Cicada.{DeviceManager, VoiceControl}
+  @behaviour Cicada.DeviceManager.Behaviour.Light
 
   def start_link(id, %Lifx.Device.State{} = device) do
     GenServer.start_link(__MODULE__, {id, device}, name: id)
@@ -152,12 +152,13 @@ defmodule DeviceManager.Device.Light.Lifx do
 
 end
 
-defmodule DeviceManager.Discovery.Light.Lifx do
-  use DeviceManager.Discovery
+defmodule Cicada.DeviceManager.Discovery.Light.Lifx do
+  use Cicada.DeviceManager.Discovery
   require Logger
-  alias DeviceManager.Device.Light
-  alias NetworkManager.State, as: NM
-  alias NetworkManager.Interface, as: NMInterface
+  alias Cicada.DeviceManager.Device.Light
+  alias Cicada.NetworkManager.State, as: NM
+  alias Cicada.NetworkManager.Interface, as: NMInterface
+  alias Cicada.NetworkManager
 
   defmodule EventHandler do
     use GenEvent

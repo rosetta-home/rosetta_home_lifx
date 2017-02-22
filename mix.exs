@@ -10,27 +10,14 @@ defmodule RosettaHomeLifx.Mixfile do
      deps: deps()]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
   def application do
-    # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger, :lifx, :network_manager, :device_manager]]
+    [extra_applications: [:logger, :lifx, :cicada]]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:my_dep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
   defp deps do
     [
       {:lifx, "~> 0.1.6"},
-      {:cicada, github: "rosetta-home/cicada", branch: "dependency"}
+      {:cicada, github: "rosetta-home/cicada", optional: true}
     ]
   end
 end
