@@ -184,6 +184,7 @@ defmodule Cicada.DeviceManager.Discovery.Light.Lifx do
   def handle_info(%NM{interface: %NMInterface{settings: %{ipv4_address: address}, status: %{operstate: :up}}}, state) do
     Logger.info "Device Manager IP: #{inspect address}"
     Logger.info "Starting Lifx Listener"
+    :timer.sleep(1000)
     Lifx.Client.start
     {:noreply, state}
   end
