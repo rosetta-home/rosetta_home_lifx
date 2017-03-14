@@ -73,7 +73,7 @@ defmodule Cicada.DeviceManager.Device.Light.Lifx do
   end
 
   def init({id, device}) do
-    Process.send_after(self(), :add_voice_controls, 100)
+    #Process.send_after(self(), :add_voice_controls, 100)
     {:ok, %DeviceManager.Device{
       module: Lifx.Device,
       type: :light,
@@ -181,8 +181,7 @@ defmodule Cicada.DeviceManager.Discovery.Light.Lifx do
     {:ok, []}
   end
 
-  def handle_info(%NM{interface: %NMInterface{settings: %{ipv4_address: address}, status: %{operstate: :up}}}, state) do
-    Logger.info "Device Manager IP: #{inspect address}"
+  def handle_info(%NM{bound: true}, state) do
     Logger.info "Starting Lifx Listener"
     :timer.sleep(1000)
     Lifx.Client.start
