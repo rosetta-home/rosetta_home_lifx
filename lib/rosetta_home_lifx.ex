@@ -1,5 +1,5 @@
 defmodule Cicada.DeviceManager.Device.Light.Lifx do
-  use GenServer
+  use Cicada.DeviceManager.DeviceHistogram
   require Logger
   alias Cicada.{DeviceManager, VoiceControl}
   @behaviour Cicada.DeviceManager.Behaviour.Light
