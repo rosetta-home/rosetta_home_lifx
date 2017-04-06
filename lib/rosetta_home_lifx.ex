@@ -178,7 +178,7 @@ defmodule Cicada.DeviceManager.Discovery.Light.Lifx do
   def register_callbacks do
     NetworkManager.register
     Lifx.Client.add_handler(EventHandler)
-    {:ok, []}
+    Light.Lifx
   end
 
   def handle_info(%NM{bound: true}, state) do
@@ -193,7 +193,7 @@ defmodule Cicada.DeviceManager.Discovery.Light.Lifx do
   end
 
   def handle_info(%Lifx.Device.State{} = device, state) do
-    {:noreply, handle_device(device, Light.Lifx, state)}
+    {:noreply, handle_device(device, state)}
   end
 
   def handle_info(_device, state) do
