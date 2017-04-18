@@ -188,7 +188,7 @@ defmodule Cicada.DeviceManager.Discovery.Light.Lifx do
     Logger.info "Starting Lifx Listener"
     :timer.sleep(1000)
     Lifx.Client.start
-    {:noreply, state}
+    {:noreply, %State{ state | started: true }}
   end
 
   def handle_info(%NM{}, state) do
