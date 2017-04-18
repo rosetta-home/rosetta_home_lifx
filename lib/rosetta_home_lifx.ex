@@ -153,12 +153,15 @@ defmodule Cicada.DeviceManager.Device.Light.Lifx do
 end
 
 defmodule Cicada.DeviceManager.Discovery.Light.Lifx do
-  use Cicada.DeviceManager.Discovery
   require Logger
   alias Cicada.DeviceManager.Device.Light
   alias Cicada.NetworkManager.State, as: NM
-  alias Cicada.NetworkManager.Interface, as: NMInterface
   alias Cicada.NetworkManager
+  use Cicada.DeviceManager.Discovery, module: Light.Lifx
+
+  defmodule State do
+    defstruct started: false
+  end
 
   defmodule EventHandler do
     use GenEvent
@@ -178,10 +181,10 @@ defmodule Cicada.DeviceManager.Discovery.Light.Lifx do
   def register_callbacks do
     NetworkManager.register
     Lifx.Client.add_handler(EventHandler)
-    Light.Lifx
+    %State{}
   end
 
-  def handle_info(%NM{bound: true}, state) do
+  def handle_info(%NM{bound: true}, %State{started: false} = state) do
     Logger.info "Starting Lifx Listener"
     :timer.sleep(1000)
     Lifx.Client.start
