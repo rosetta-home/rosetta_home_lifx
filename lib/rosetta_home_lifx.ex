@@ -176,12 +176,23 @@ defmodule Cicada.DeviceManager.Discovery.Light.Lifx do
       {:ok, parent}
     end
 
-  end
+    def terminate(reason, parent) do
+      Logger.info "Lifx EventHandler Terminating: #{inspect reason}"
+      :ok
+    end
+
+    end
 
   def register_callbacks do
+    Logger.info "Starting Lifx Listener"
+    Lifx.Client.Events |> GenEvent.add_mon_handler(EventHandler, self())
     NetworkManager.register
-    Lifx.Client.add_handler(EventHandler)
-    %State{}
+    case NetworkManager.up do
+      true ->
+        Lifx.Client.start
+        %State{started: true}
+      false -> %State{}
+    end
   end
 
   def handle_info(%NM{bound: true}, %State{started: false} = state) do
